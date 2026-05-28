@@ -1,0 +1,154 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Idioma del panel
+locale: es
+
+# Dónde se guardan las imágenes subidas desde el CMS
+media_folder: public/assets/uploads
+public_folder: /assets/uploads
+
+collections:
+
+  # ── ARTÍCULOS ──────────────────────────────────────────────────────────────
+  - name: articulos
+    label: Artículos
+    label_singular: Artículo
+    folder: src/content/articulos
+    create: true
+    slug: "{{slug}}"
+    preview_path: "/publicaciones/{{slug}}"
+    fields:
+
+      - label: Título
+        name: titulo
+        widget: string
+        hint: "Aparece en la tarjeta, en la página del artículo y en el <title>."
+
+      - label: Fecha de publicación
+        name: fechaPublicacion
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+
+      - label: Autor/a
+        name: autor
+        widget: string
+
+      - label: Universidad
+        name: universidad
+        widget: string
+        required: false
+        hint: "Nombre completo — ej: Universidad Nacional Mayor de San Marcos"
+
+      - label: Imagen de portada
+        name: imagenPortada
+        widget: image
+        required: false
+        hint: "Opcional. Se mostrará en la tarjeta y en el encabezado del artículo."
+
+      - label: Resumen
+        name: resumen
+        widget: text
+        hint: "2–3 oraciones. Aparece como bajada en las tarjetas y en la página del artículo."
+
+      - label: Tags
+        name: tags
+        widget: list
+        field:
+          label: Tag
+          name: tag
+          widget: string
+        hint: "ej: economía, política, instituciones"
+
+      - label: Tiempo de lectura (min)
+        name: tiempoLectura
+        widget: number
+        required: false
+        value_type: int
+        min: 1
+        hint: "Minutos estimados. Se muestra en la tarjeta junto al autor."
+
+      - label: Cuerpo del artículo
+        name: body
+        widget: markdown
+        hint: "Usa ## para subtítulos de sección."
+
+
+  # ── PODCAST ────────────────────────────────────────────────────────────────
+  - name: podcast
+    label: Podcast
+    label_singular: Episodio
+    folder: src/content/podcast
+    create: true
+    slug: "ep-{{numeroEpisodio}}-{{slug}}"
+    preview_path: "/podcast"
+    fields:
+
+      - label: Título
+        name: titulo
+        widget: string
+
+      - label: Fecha
+        name: fecha
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+
+      - label: Número de episodio
+        name: numeroEpisodio
+        widget: number
+        value_type: int
+        min: 1
+
+      - label: Descripción
+        name: descripcion
+        widget: text
+        hint: "Aparece como bajada en el listado. 2–3 oraciones."
+
+      - label: Duración
+        name: duracion
+        widget: string
+        required: false
+        hint: "Formato mm:ss — ej: 48:00"
+
+      - label: Invitado/a
+        name: invitado
+        widget: string
+        required: false
+        hint: "Nombre y filiación — ej: Lucía Vergara — Universidad de Buenos Aires"
+
+      - label: Entrevistador/a
+        name: entrevistador
+        widget: string
+        required: false
+
+      - label: Link YouTube
+        name: linkYoutube
+        widget: string
+        required: false
+        hint: "URL completa — ej: https://www.youtube.com/watch?v=ABC123"
+
+      - label: Link Spotify
+        name: linkSpotify
+        widget: string
+        required: false
+        hint: "URL completa — ej: https://open.spotify.com/episode/ABC123"
+
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        field:
+          label: Tag
+          name: tag
+          widget: string
+
+      - label: Notas del episodio
+        name: body
+        widget: markdown
+        required: false
+        hint: "Descripción extendida, timestamps y referencias. Opcional."

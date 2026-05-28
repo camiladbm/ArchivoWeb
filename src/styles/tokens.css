@@ -1,0 +1,143 @@
+/* ============================================================
+   ARCHIVO — Design Tokens
+   ------------------------------------------------------------
+   Single source of truth for color, type, spacing.
+   Import this file first; everything else builds on top.
+   ============================================================ */
+
+:root {
+  /* ---------- COLOR ----------
+     The palette is a hierarchy, not a buffet.
+     Primary, canvas, body text are the workhorses.
+     The three "variations" are content-coding colors —
+     assign them consistently to verticals so the audience
+     learns to read them.
+  */
+
+  /* Principal */
+  --archivo-green:      #106158;   /* signature — logo, headers, primary CTAs */
+  --archivo-cream:      #faf2e9;   /* default canvas — warm paper, never cold white */
+
+  /* Content-coding variations (one accent per piece) */
+  --archivo-terracotta: #b24e3b;   /* → Política  (Politics) */
+  --archivo-navy:       #15486a;   /* → Asuntos Internacionales (International) */
+  --archivo-ochre:      #cfa346;   /* → Economía (Economics) */
+
+  /* Neutrals */
+  --archivo-brown:      #331f12;   /* body text */
+  --archivo-grey-green: #90a0a1;   /* captions, metadata, secondary UI */
+
+  /* Tonal helpers (use sparingly — derived, not from the master palette) */
+  --archivo-green-ink:  #0b423c;   /* hover state for green */
+  --archivo-cream-deep: #f1e6d4;   /* hairline rules, table stripes */
+  --archivo-cream-soft: #fcf7ef;   /* subtle elevation on cream */
+
+  /* Semantic role aliases — prefer these in product code */
+  --color-bg:           var(--archivo-cream);
+  --color-bg-elevated:  var(--archivo-cream-soft);
+  --color-ink:          var(--archivo-brown);
+  --color-ink-muted:    var(--archivo-grey-green);
+  --color-rule:         var(--archivo-cream-deep);
+  --color-brand:        var(--archivo-green);
+  --color-brand-ink:    var(--archivo-green-ink);
+
+  /* ---------- TYPOGRAPHY ----------
+     Two voices. Gibson = the loud voice (display, headlines, caps).
+     FreightNeo Pro = the thinking voice (subheads, body, long-form).
+
+     Web fallbacks: Sora (display) and Newsreader (text) are the
+     designated Google Fonts substitutes when the licensed brand
+     fonts are unavailable.
+  */
+  --font-display:  "Gibson", "Sora", system-ui, sans-serif;
+  --font-text:     "FreightNeo Pro", "Newsreader", "Source Serif Pro", Georgia, serif;
+  --font-italic:   "Gibson", "Sora", system-ui, sans-serif;
+
+  /* Type scale — anchored to body 16px, modular ratio 1.25 */
+  --t-12:   0.75rem;
+  --t-14:   0.875rem;
+  --t-16:   1rem;
+  --t-18:   1.125rem;
+  --t-22:   1.375rem;
+  --t-28:   1.75rem;
+  --t-36:   2.25rem;
+  --t-48:   3rem;
+  --t-64:   4rem;
+  --t-96:   6rem;
+  --t-128:  8rem;
+
+  /* Tracking */
+  --tracking-display: -0.02em;
+  --tracking-caps:     0.02em;
+  --tracking-text:     0em;
+  --tracking-caption:  0.06em;
+
+  /* Line height */
+  --leading-tight:   1.05;
+  --leading-snug:    1.15;
+  --leading-normal:  1.45;
+  --leading-relaxed: 1.6;
+
+  /* ---------- SPACING ---------- */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  24px;
+  --s-6:  32px;
+  --s-7:  48px;
+  --s-8:  64px;
+  --s-9:  96px;
+  --s-10: 128px;
+
+  /* ---------- LAYOUT ---------- */
+  --measure-text:    62ch;
+  --measure-narrow:  44ch;
+  --container:       1240px;
+
+  /* ---------- RADII ---------- */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-pill: 999px;
+
+  /* ---------- BORDERS ---------- */
+  --hairline: 1px solid var(--color-rule);
+  --rule:     1px solid var(--archivo-grey-green);
+
+  /* ---------- ELEVATION ---------- */
+  --shadow-paper:
+    0 1px 0 rgba(51, 31, 18, 0.04),
+    0 12px 32px -16px rgba(51, 31, 18, 0.18);
+
+  /* ---------- MOTION ---------- */
+  --ease-quiet:  cubic-bezier(0.2, 0.6, 0.2, 1);
+  --dur-fast:    140ms;
+  --dur-base:    240ms;
+  --dur-slow:    420ms;
+}
+
+/* ============================================================
+   GLOBAL BASE
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; margin: 0; padding: 0; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-18);
+  line-height: var(--leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--archivo-green); color: var(--archivo-cream); }
+
+a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: var(--color-brand-ink); }

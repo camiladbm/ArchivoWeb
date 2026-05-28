@@ -1,0 +1,295 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('articulos');
+  return articulos.map(art => ({
+    params: { slug: art.slug },
+    props: { art },
+  }));
+}
+
+const { art } = Astro.props;
+const { Content } = await art.render();
+
+function formatFecha(date: Date): string {
+  return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function tagColor(tag: string): string {
+  const eco = ['economía', 'extractivismo', 'política monetaria'];
+  const pol = ['política', 'instituciones', 'cono sur'];
+  const int = ['internacional', 'andes'];
+  if (eco.some(t => tag.toLowerCase().includes(t))) return 'eco';
+  if (pol.some(t => tag.toLowerCase().includes(t))) return 'pol';
+  if (int.some(t => tag.toLowerCase().includes(t))) return 'int';
+  return 'cul';
+}
+---
+
+<BaseLayout
+  title={`${art.data.titulo} — Archivo`}
+  description={art.data.resumen}
+  activeNav="publicaciones"
+>
+
+<main class="art-main">
+
+  <!-- ARTICLE HEADER -->
+  <header class="art-header section">
+    <div class="container art-header-inner">
+      <div class="art-breadcrumb">
+        <a href="/publicaciones">← Publicaciones</a>
+      </div>
+
+      <div class="art-header-tags">
+        {art.data.tags.map(tag => (
+          <span class={`tag ${tagColor(tag)}`}>{tag}</span>
+        ))}
+      </div>
+
+      <h1 class="art-title">{art.data.titulo}</h1>
+
+      <p class="art-resumen">{art.data.resumen}</p>
+
+      <div class="art-byline">
+        <div class="art-byline-author">
+          <span class="byline-label">Por</span>
+          <span class="byline-name">{art.data.autor}</span>
+          {art.data.universidad && (
+            <span class="byline-uni">{art.data.universidad}</span>
+          )}
+        </div>
+        <div class="art-byline-meta">
+          <span class="byline-date">{formatFecha(art.data.fechaPublicacion)}</span>
+          {art.data.tiempoLectura && (
+            <>
+              <span class="byline-sep">·</span>
+              <span class="byline-read">{art.data.tiempoLectura} min de lectura</span>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ARTICLE BODY -->
+  <article class="art-body section" style="background: var(--archivo-cream);">
+    <div class="container">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <!-- BACK LINK -->
+  <div class="art-footer section" style="background: var(--archivo-cream);">
+    <div class="container art-footer-inner">
+      <a href="/publicaciones" class="btn btn-ghost">← Ver todas las publicaciones</a>
+      <span class="art-footer-ep">Archivo · Publicaciones</span>
+    </div>
+  </div>
+
+</main>
+
+</BaseLayout>
+
+<style>
+/* -- Article header -- */
+.art-header-inner {
+  max-width: 780px;
+}
+
+.art-breadcrumb {
+  margin-bottom: 28px;
+}
+.art-breadcrumb a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--archivo-green);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+.art-breadcrumb a:hover { color: var(--archivo-green-ink); }
+
+.art-header-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.art-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  line-height: 1.0;
+  letter-spacing: -0.035em;
+  color: var(--archivo-green);
+  text-wrap: balance;
+  max-width: 22ch;
+}
+
+.art-resumen {
+  margin: 20px 0 0;
+  font-family: var(--font-text);
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--archivo-brown);
+  max-width: 58ch;
+}
+
+.art-byline {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--archivo-grey-green);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 36px;
+  align-items: baseline;
+}
+
+.art-byline-author {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.byline-label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--archivo-grey-green);
+}
+.byline-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--archivo-brown);
+}
+.byline-uni {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--archivo-grey-green);
+}
+
+.art-byline-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--archivo-grey-green);
+}
+.byline-sep { font-style: normal; }
+
+/* -- Prose (article body) -- */
+.prose {
+  max-width: 68ch;
+  font-family: var(--font-text);
+  font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
+  line-height: 1.72;
+  color: var(--archivo-brown);
+}
+
+.prose p { margin: 0 0 1.4em; }
+.prose p:last-child { margin-bottom: 0; }
+
+.prose h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--archivo-green);
+  margin: 2.2em 0 0.6em;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--archivo-grey-green);
+}
+.prose h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  letter-spacing: -0.01em;
+  color: var(--archivo-brown);
+  margin: 1.8em 0 0.5em;
+}
+
+.prose strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--archivo-brown);
+}
+
+.prose em {
+  font-style: italic;
+  color: var(--archivo-green);
+}
+
+.prose a {
+  color: var(--archivo-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose a:hover { color: var(--archivo-green-ink); }
+
+.prose ul, .prose ol {
+  padding-left: 1.4em;
+  margin: 0 0 1.4em;
+}
+.prose li { margin-bottom: 0.4em; }
+
+.prose blockquote {
+  margin: 1.8em 0;
+  padding: 0 0 0 20px;
+  border-left: 3px solid var(--archivo-green);
+  font-style: italic;
+  font-size: 1.05em;
+  color: var(--archivo-green);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px dashed rgba(51, 31, 18, 0.25);
+  margin: 2.4em 0;
+}
+
+/* -- Footer -- */
+.art-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.art-footer-ep {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--archivo-grey-green);
+}
+</style>

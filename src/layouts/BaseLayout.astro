@@ -1,0 +1,290 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  activeNav?: 'inicio' | 'publicaciones' | 'podcast';
+}
+
+const {
+  title = 'Archivo — Pensamiento latinoamericano, en voz alta.',
+  description = 'El archivo estudiantil que hace legible, debatible y nuestro el pensamiento económico y político latinoamericano.',
+  activeNav = 'inicio',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+  <link rel="icon" type="image/png" href="/assets/logo-globe-green.png" />
+  <link rel="apple-touch-icon" href="/assets/logo-globe-green.png" />
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+<!-- FOND — fixed paper background -->
+<div class="fond" aria-hidden="true">
+  <div class="fond-base"></div>
+  <div class="fond-grain"></div>
+  <div class="fond-flecks"></div>
+  <div class="fond-rules"></div>
+  <div class="fond-watermark">
+    <img src="/assets/logo-wordmark-green.png" alt="" />
+  </div>
+  <div class="fond-watermark-2">
+    <img src="/assets/logo-globe-green.png" alt="" />
+  </div>
+  <span class="fond-mark tl">Archivo · MMXXVI</span>
+  <span class="fond-mark tr">Vol. III · N.º 027</span>
+</div>
+
+<!-- TOP NAV -->
+<header class="topnav" id="topnav">
+  <div class="container topnav-inner">
+    <a href="/" class="brand" aria-label="Archivo">
+      <img src="/assets/logo-wordmark-green.png" alt="Archivo" />
+      <span class="est">Est. 2026</span>
+    </a>
+
+    <nav class="nav-links" id="nav" aria-label="Secciones">
+      <a class:list={[{ 'is-active': activeNav === 'inicio' }]} href="/">Inicio</a>
+      <a class:list={[{ 'is-active': activeNav === 'publicaciones' }]} href="/publicaciones">Publicaciones</a>
+      <a class:list={[{ 'is-active': activeNav === 'podcast' }]} href="/podcast">Podcast</a>
+    </nav>
+
+    <div class="nav-right">
+      <a class="btn btn-ghost" href="https://forms.gle/X14zKrC5v7LSS3a56" target="_blank" rel="noopener">Postula</a>
+      <button class="btn btn-primary" id="ctaSuscribete">Suscríbete</button>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE CONTENT -->
+<slot />
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="brand-line">
+        <img src="/assets/logo-wordmark-green.png" alt="Archivo" />
+        <span class="tag">Est. MMXXVI</span>
+      </div>
+      <p class="footer-tagline">
+        El archivo estudiantil que hace legible, debatible y nuestro
+        el pensamiento económico y político de la región.
+      </p>
+    </div>
+    <div>
+      <h5>El archivo</h5>
+      <ul>
+        <li><a href="/publicaciones">Publicaciones</a></li>
+        <li><a href="/podcast">Podcast</a></li>
+        <li><a href="#" id="footerNewsArchivo">El Índice · Newsletter</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Comunidad</h5>
+      <ul>
+        <li><a href="#" id="footerPostula">Postula al equipo</a></li>
+        <li><a href="#" id="footerNews">El Índice · Suscríbete</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Plataformas</h5>
+      <ul>
+        <li><a href="https://open.spotify.com/show/033kW8I2HeBU80R5eGOFF6?si=pzoBHoYiQ6yvVs8Stn2fOg" target="_blank" rel="noopener">Spotify</a></li>
+        <li><a href="https://www.youtube.com/@archivoLatam" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://www.instagram.com/archivolat" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.linkedin.com/company/archivolat" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <div class="colofon">
+      <span><strong>© 2026 Archivo</strong> · Todos los derechos del archivo.</span>
+      <span><strong>Lima · Bogotá · CDMX · BA · Santiago</strong></span>
+    </div>
+    <div class="colofon">
+      <span>ES · <em>EN, PT próximamente</em></span>
+    </div>
+  </div>
+</footer>
+
+<!-- CTA MODAL -->
+<div class="cta-overlay" id="ctaOverlay" hidden>
+  <div class="cta-overlay-bg" data-cta-close></div>
+  <div class="cta-card" role="dialog" aria-modal="true" aria-labelledby="ctaTitle">
+    <button class="cta-close" data-cta-close aria-label="Cerrar">×</button>
+
+    <div class="cta-eye">
+      <span class="num">N.º 027</span>
+      <span>· Únete al archivo</span>
+    </div>
+
+    <h2 id="ctaTitle">Dos maneras de <em>entrar</em>.</h2>
+
+    <div class="cta-tabs" role="tablist">
+      <button class="cta-tab is-active" data-tab="news" role="tab" aria-selected="true">
+        <span class="cta-tab-num">01</span>
+        <span class="cta-tab-label">Newsletter</span>
+        <span class="cta-tab-desc">El Índice, cada viernes — dos minutos de lectura.</span>
+      </button>
+      <button class="cta-tab" data-tab="apply" role="tab" aria-selected="false">
+        <span class="cta-tab-num">02</span>
+        <span class="cta-tab-label">Postula</span>
+        <span class="cta-tab-desc">Únete como editor, productor o investigador.</span>
+      </button>
+    </div>
+
+    <form class="cta-form" id="ctaFormNews" data-form="news">
+      <label for="ctaEmail">Tu correo institucional</label>
+      <div class="cta-input">
+        <input id="ctaEmail" type="email" placeholder="ana@uchile.cl" required />
+        <button type="submit" class="btn btn-primary">Suscribirme</button>
+      </div>
+      <div class="cta-checklist">
+        <span class="cta-check" data-n="01">Editor's note</span>
+        <span class="cta-check" data-n="02">Episodio nuevo</span>
+        <span class="cta-check" data-n="03">Dos publicaciones</span>
+        <span class="cta-check" data-n="04">Del archivo</span>
+        <span class="cta-check" data-n="05">Una recomendación</span>
+      </div>
+      <span class="cta-note">2.400+ suscriptores · sin spam · cancelas cuando quieras.</span>
+    </form>
+
+    <form class="cta-form" id="ctaFormApply" data-form="apply" hidden>
+      <div class="cta-grid-2">
+        <div>
+          <label for="aName">Nombre completo</label>
+          <input id="aName" type="text" placeholder="Camila Rivas" required />
+        </div>
+        <div>
+          <label for="aUni">Universidad</label>
+          <input id="aUni" type="text" placeholder="UNAM · CIDE · UC Chile…" required />
+        </div>
+      </div>
+      <label for="aRole">¿En qué te interesa colaborar?</label>
+      <div class="cta-roles">
+        <label class="cta-role">
+          <input type="radio" name="role" value="invest" checked />
+          <span>Investigación</span>
+        </label>
+        <label class="cta-role">
+          <input type="radio" name="role" value="podcast" />
+          <span>Podcast</span>
+        </label>
+        <label class="cta-role">
+          <input type="radio" name="role" value="editorial" />
+          <span>Edición</span>
+        </label>
+        <label class="cta-role">
+          <input type="radio" name="role" value="diseño" />
+          <span>Diseño · Visual</span>
+        </label>
+      </div>
+      <label for="aWhy">Cuéntanos brevemente por qué</label>
+      <textarea id="aWhy" rows="3" placeholder="Una o dos líneas. Sin currículos." required></textarea>
+      <button type="submit" class="btn btn-primary">Enviar postulación</button>
+      <span class="cta-note">Te respondemos personalmente en menos de 7 días.</span>
+    </form>
+  </div>
+</div>
+
+<script>
+  /* Netlify Identity — redirige al admin tras confirmar invitación */
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', (user: unknown) => {
+      if (!user) {
+        window.netlifyIdentity.on('login', () => {
+          document.location.href = '/admin/';
+        });
+      }
+    });
+  }
+
+  /* topnav scroll shadow */
+  const topnav = document.getElementById('topnav');
+  if (topnav) {
+    window.addEventListener('scroll', () => {
+      topnav.classList.toggle('is-pinned', window.scrollY > 8);
+    }, { passive: true });
+  }
+
+  /* CTA modal */
+  const overlay = document.getElementById('ctaOverlay');
+  const tabBtns = document.querySelectorAll<HTMLButtonElement>('.cta-tab');
+  const formNews = document.getElementById('ctaFormNews') as HTMLFormElement | null;
+  const formApply = document.getElementById('ctaFormApply') as HTMLFormElement | null;
+
+  function openModal(which: 'news' | 'apply' = 'news') {
+    if (!overlay) return;
+    overlay.hidden = false;
+    switchTab(which);
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    if (!overlay) return;
+    overlay.hidden = true;
+    document.body.style.overflow = '';
+  }
+  function switchTab(which: string) {
+    tabBtns.forEach(b => {
+      const active = b.dataset.tab === which;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    if (formNews) formNews.hidden = which !== 'news';
+    if (formApply) formApply.hidden = which !== 'apply';
+  }
+
+  document.getElementById('ctaSuscribete')?.addEventListener('click', () => openModal('news'));
+  document.getElementById('ctaPostula')?.addEventListener('click', () => openModal('apply'));
+  document.getElementById('footerNews')?.addEventListener('click', (e) => { e.preventDefault(); openModal('news'); });
+  document.getElementById('footerNewsArchivo')?.addEventListener('click', (e) => { e.preventDefault(); openModal('news'); });
+  document.getElementById('footerPostula')?.addEventListener('click', (e) => { e.preventDefault(); window.open('https://forms.gle/X14zKrC5v7LSS3a56', '_blank'); });
+  document.querySelectorAll('[data-cta-close]').forEach(el => el.addEventListener('click', closeModal));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay && !overlay.hidden) closeModal();
+  });
+  tabBtns.forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab!)));
+
+  formNews?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('ctaEmail') as HTMLInputElement).value;
+    const name = email.split('@')[0];
+    const card = document.querySelector('.cta-card');
+    if (!card) return;
+    card.innerHTML = `
+      <button class="cta-close" data-cta-close aria-label="Cerrar">×</button>
+      <div class="cta-thanks">
+        <h3>Suscripción registrada.</h3>
+        <p>"Gracias, ${name} — te buscamos el viernes con El Índice 048."</p>
+      </div>
+    `;
+    card.querySelector('[data-cta-close]')?.addEventListener('click', closeModal);
+  });
+
+  formApply?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = (document.getElementById('aName') as HTMLInputElement).value.split(' ')[0];
+    const card = document.querySelector('.cta-card');
+    if (!card) return;
+    card.innerHTML = `
+      <button class="cta-close" data-cta-close aria-label="Cerrar">×</button>
+      <div class="cta-thanks">
+        <h3>Postulación recibida.</h3>
+        <p>"Gracias, ${name} — un editor te escribirá personalmente en menos de 7 días."</p>
+      </div>
+    `;
+    card.querySelector('[data-cta-close]')?.addEventListener('click', closeModal);
+  });
+</script>
+
+</body>
+</html>

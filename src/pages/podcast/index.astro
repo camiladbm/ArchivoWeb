@@ -1,0 +1,387 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const episodios = await getCollection('podcast');
+const sorted = episodios.sort(
+  (a, b) => b.data.numeroEpisodio - a.data.numeroEpisodio
+);
+
+function formatFecha(date: Date): string {
+  return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function youtubeEmbed(url?: string): string | null {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes('youtube.com') && u.searchParams.get('v')) {
+      return `https://www.youtube.com/embed/${u.searchParams.get('v')}?rel=0`;
+    }
+    if (u.hostname === 'youtu.be') {
+      return `https://www.youtube.com/embed${u.pathname}?rel=0`;
+    }
+    return null;
+  } catch { return null; }
+}
+
+function spotifyEmbed(url?: string): string | null {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    if (!u.hostname.includes('spotify.com')) return null;
+    if (!u.pathname.includes('/episode/')) return null;
+    return `https://open.spotify.com/embed${u.pathname}?utm_source=generator&theme=0`;
+  } catch { return null; }
+}
+
+function tagColor(tag: string): string {
+  const eco = ['economía', 'política monetaria', 'extractivismo'];
+  const pol = ['política', 'instituciones', 'cono sur'];
+  const int = ['internacional', 'andes'];
+  if (eco.some(t => tag.toLowerCase().includes(t))) return 'eco';
+  if (pol.some(t => tag.toLowerCase().includes(t))) return 'pol';
+  if (int.some(t => tag.toLowerCase().includes(t))) return 'int';
+  return 'cul';
+}
+---
+
+<BaseLayout
+  title="Podcast — Archivo"
+  description="Conversaciones largas con economistas, politólogos y pensadores que están escribiendo América Latina hoy."
+  activeNav="podcast"
+>
+
+<main>
+
+  <!-- PAGE HEADER -->
+  <section class="section pod-header">
+    <div class="container">
+      <div class="section-marker">
+        <span>Archivo <span class="num">·</span> El Podcast · Estudio</span>
+      </div>
+      <h1 class="section-title" style="margin-top: 28px;">
+        Las conversaciones que<br /><em style="font-style:italic; font-weight:300; color:var(--archivo-ochre);">abren el archivo.</em>
+      </h1>
+      <p class="section-deck" style="margin-top: 18px; max-width: 52ch;">
+        Entrevistas largas con economistas, politólogos y pensadores que están escribiendo la región hoy.
+        Escucha directo aquí o en tu plataforma favorita.
+      </p>
+      <div class="pod-platforms">
+        <span class="pod-platform-label">Disponible en</span>
+        <a class="pod-platform-btn" href="https://open.spotify.com/show/033kW8I2HeBU80R5eGOFF6?si=pzoBHoYiQ6yvVs8Stn2fOg" target="_blank" rel="noopener">Spotify</a>
+        <a class="pod-platform-btn" href="https://www.youtube.com/@archivoLatam" target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EPISODE LIST -->
+  <section class="section" style="background: var(--archivo-cream);">
+    <div class="container">
+      <div class="ep-list">
+        {sorted.map((ep) => {
+          const ytSrc = youtubeEmbed(ep.data.linkYoutube);
+          const spSrc = spotifyEmbed(ep.data.linkSpotify);
+          const numStr = String(ep.data.numeroEpisodio).padStart(3, '0');
+          const firstTag = ep.data.tags?.[0] ?? '';
+          const color = tagColor(firstTag);
+          const hasAnyEmbed = ytSrc || spSrc;
+
+          return (
+            <article class="ep-item">
+
+              <!-- episode meta bar -->
+              <header class="ep-meta-bar">
+                <div class="ep-meta-left">
+                  <span class="ep-num">{numStr}</span>
+                  {firstTag && <span class={`tag ${color}`}>{firstTag}</span>}
+                </div>
+              </header>
+
+              <!-- text left, YouTube + Spotify stacked right -->
+              <div class="ep-main">
+                <div class="ep-info">
+                  <h2 class="ep-title">{ep.data.titulo}</h2>
+                  <div class="ep-guests">
+                    {ep.data.invitado && <span class="ep-guest">{ep.data.invitado}</span>}
+                    {ep.data.entrevistador && (
+                      <span class="ep-interviewer">Entrevista: {ep.data.entrevistador}</span>
+                    )}
+                    {ep.data.duracion && <span class="ep-dur">{ep.data.duracion}</span>}
+                  </div>
+                  <p class="ep-desc">{ep.data.descripcion}</p>
+                </div>
+
+                {(ytSrc || spSrc) && (
+                  <div class="ep-right">
+                    {ytSrc && (
+                      <div class="ep-embed ep-embed--yt">
+                        <div class="embed-label">YouTube</div>
+                        <div class="yt-wrapper">
+                          <iframe
+                            src={ytSrc}
+                            title={`${ep.data.titulo} — YouTube`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy"
+                          ></iframe>
+                        </div>
+                      </div>
+                    )}
+                    {spSrc && (
+                      <div class="ep-embed ep-embed--sp">
+                        <div class="embed-label">Spotify</div>
+                        <iframe
+                          src={spSrc}
+                          title={`${ep.data.titulo} — Spotify`}
+                          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                          loading="lazy"
+                          height="152"
+                        ></iframe>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {!hasAnyEmbed && (
+                <div class="ep-embeds-placeholder">
+                  <span class="placeholder-label">
+                    · Reproductores disponibles al publicar el episodio ·
+                  </span>
+                  {ep.data.linkYoutube && (
+                    <a href={ep.data.linkYoutube} target="_blank" rel="noopener" class="btn btn-ghost">
+                      Ver en YouTube →
+                    </a>
+                  )}
+                  {ep.data.linkSpotify && (
+                    <a href={ep.data.linkSpotify} target="_blank" rel="noopener" class="btn btn-ghost">
+                      Escuchar en Spotify →
+                    </a>
+                  )}
+                </div>
+              )}
+
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</BaseLayout>
+
+<style>
+/* ---- Page header ---- */
+.pod-platforms {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--archivo-grey-green);
+  flex-wrap: wrap;
+}
+.pod-platform-label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--archivo-grey-green);
+}
+.pod-platform-btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--archivo-green);
+  border: 1.5px solid var(--archivo-green);
+  padding: 6px 14px;
+  text-decoration: none;
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.pod-platform-btn:hover {
+  background: var(--archivo-green);
+  color: var(--archivo-cream);
+}
+
+/* ---- Episode list ---- */
+.ep-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--archivo-grey-green);
+}
+
+.ep-item {
+  padding: clamp(36px, 5vw, 64px) 0;
+  border-bottom: 1px solid var(--archivo-grey-green);
+  display: grid;
+  gap: 20px;
+}
+
+/* meta bar */
+.ep-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ep-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ep-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--archivo-grey-green);
+  font-variant-numeric: tabular-nums;
+}
+.ep-date {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--archivo-grey-green);
+}
+
+/* info */
+.ep-info { display: grid; gap: 12px; }
+
+.ep-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--archivo-green);
+  max-width: 28ch;
+  text-wrap: balance;
+}
+
+.ep-guests {
+  display: flex;
+  align-items: baseline;
+  gap: 6px 18px;
+  flex-wrap: wrap;
+}
+.ep-guest {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--archivo-brown);
+  text-transform: uppercase;
+}
+.ep-interviewer {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--archivo-grey-green);
+}
+.ep-dur {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--archivo-grey-green);
+  padding-left: 18px;
+  border-left: 1px solid var(--archivo-grey-green);
+}
+
+.ep-desc {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--archivo-brown);
+  max-width: 64ch;
+}
+
+/* text + YouTube side by side */
+.ep-main {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 480px);
+  gap: 36px;
+  align-items: start;
+}
+
+.ep-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ep-embed { display: grid; gap: 10px; }
+
+.embed-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--archivo-grey-green);
+}
+
+/* YouTube 16:9 wrapper */
+.yt-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  background: var(--archivo-brown);
+}
+.yt-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Spotify iframe */
+.ep-embed--sp iframe {
+  width: 100%;
+  border: none;
+  border-radius: 0;
+}
+
+/* placeholder when no real embed URL */
+.ep-embeds-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  border: 1px dashed rgba(51, 31, 18, 0.25);
+  background: rgba(250, 242, 233, 0.4);
+}
+.placeholder-label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--archivo-grey-green);
+  flex: 1;
+}
+
+/* responsive */
+@media (max-width: 860px) {
+  .ep-main { grid-template-columns: 1fr; }
+  .ep-num { font-size: 28px; }
+}
+</style>

@@ -1,0 +1,12 @@
+/* ============================================================
+   ARCHIVO — Web Fonts
+   ------------------------------------------------------------
+   Gibson → Sora (display, headlines)
+   FreightNeo Pro → Newsreader (body, long-form)
+
+   Drop Gibson + FreightNeo Pro .woff2 files into /public/fonts/
+   and add @font-face rules here — the token stacks will pick
+   them up automatically.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&display=swap');
