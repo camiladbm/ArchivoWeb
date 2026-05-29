@@ -24,39 +24,143 @@ El resto de causales tienen poco que ver con la gestión del gobierno en el pode
 
 Sin importar cuál de las fuerzas externas haya movido el péndulo, está no tiene porque ser muy fuerte. La división de muchos congresos, así como la falta de convicción ideológica mayoritaria de los mismos electores demuestra esto. Además de crear una parálisis ejecutiva, un congreso dividido refleja una población dividida ideológicamente. Mientras la mayoría votó por la ideología X, esa mayoría, muchas veces no es tanto más que la minoría. En la Tabla 1 se puede ver que es inusual una diferencia mayor al 17% entre los 2 candidatos más votados de ideologías opuestas, el promedio resultando en solo 8.69% de diferencia, con excepción de la elección de Guatemala en 2023. También se evidencia en el hecho que en primera vuelta electoral, cuando hay candidatos de ideologías opuestas, ninguno obtiene una mayoría (50% + 1%); solo ocurre en la elección de Honduras en 2021. Esto vuelve la segunda vuelta electoral la norma en América Latina, demostrando que no hay consenso mayoritario fuerte detrás de una ideología, las 5 elecciones resueltas en primera vuelta -resaltadas en amarillo- son anomalías. 
 
-\| País | Anomalías | Ciclo anterior (%) | | | Resultados elecciones generales 2023-presente (%) | | |
-
-\|---|---|---|---|---|---|---|---|
-
-\| | | Candidato de izquierda | Candidato de derecha | Diferencia | Candidato de izquierda | Candidato de derecha | Diferencia |
-
-\| Perú | | 51.13 | 49.87 | 1.26 | | | |
-
-\| Colombia | | 51.57 | 48.43 | 3.14 | | | |
-
-\| Argentina | | 48.01 | 40.37 | 7.64 | 44.31 | 55.69 | 11.38 |
-
-\| Chile | | 55.87 | 44.14 | 11.73 | 41.84 | 58.16 | 16.32 |
-
-\| Guatemala | | 42.05 | 57.95 | -15.90 | 60.90 | 39.10 | -21.80 |
-
-\| Brasil | | 50.90 | 49.10 | 1.80 | | | |
-
-\| Uruguay | | 49.38 | 50.62 | -1.24 | 52.08 | 47.92 | -4.16 |
-
-\| Honduras | | 51.12 | 36.93 | 14.19 | 39.55 | 40.26 | 0.71 |
-
-\| Bolivia | ³ | 83.94 | N/A | N/A | N/A | 100.00 | N/A |
-
-\| Puerto Rico | ² | 64.99 | N/A | N/A | 30.77 | 41.26 | 10.49 |
-
-*Ecuador, Costa Rica, Paraguay y El Salvador se mantienen en la derecha mientras México se mantiene de izquierda.*
-
-*¹ Todavía no hay resultados de las elecciones en este ciclo*
-
-*² Los 2 candidatos más votados son de una misma ideología*
-
-*³ Las elecciones se decidieron en primera vuelta, la diferencia no es representativa*
+```
+<table>
+  <caption><strong>Tabla 1: Resultados de elecciones en LATAM, dos ciclos electorales</strong></caption>
+  <thead>
+    <tr>
+      <th rowspan="2">País</th>
+      <th rowspan="2">Anomalías</th>
+      <th colspan="3">Ciclo anterior (%)</th>
+      <th colspan="3">Resultados elecciones generales 2023-presente (%)</th>
+    </tr>
+    <tr>
+      <th>Candidato de izquierda</th>
+      <th>Candidato de derecha</th>
+      <th>Diferencia</th>
+      <th>Candidato de izquierda</th>
+      <th>Candidato de derecha</th>
+      <th>Diferencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Perú</td>
+      <td></td>
+      <td>51.13</td>
+      <td>49.87</td>
+      <td>1.26</td>
+      <td></td>
+      <td></td>
+      <td>¹</td>
+    </tr>
+    <tr>
+      <td>Colombia</td>
+      <td></td>
+      <td>51.57</td>
+      <td>48.43</td>
+      <td>3.14</td>
+      <td></td>
+      <td></td>
+      <td>¹</td>
+    </tr>
+    <tr>
+      <td>Argentina</td>
+      <td></td>
+      <td>48.01</td>
+      <td>40.37</td>
+      <td>7.64</td>
+      <td>44.31</td>
+      <td>55.69</td>
+      <td>11.38</td>
+    </tr>
+    <tr>
+      <td>Chile</td>
+      <td></td>
+      <td>55.87</td>
+      <td>44.14</td>
+      <td>11.73</td>
+      <td>41.84</td>
+      <td>58.16</td>
+      <td>16.32</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td></td>
+      <td>42.05</td>
+      <td>57.95</td>
+      <td>-15.90</td>
+      <td>60.90</td>
+      <td>39.10</td>
+      <td>-21.80</td>
+    </tr>
+    <tr>
+      <td>Brasil</td>
+      <td></td>
+      <td>50.90</td>
+      <td>49.10</td>
+      <td>1.80</td>
+      <td></td>
+      <td></td>
+      <td>¹</td>
+    </tr>
+    <tr>
+      <td>Uruguay</td>
+      <td></td>
+      <td>49.38</td>
+      <td>50.62</td>
+      <td>-1.24</td>
+      <td>52.08</td>
+      <td>47.92</td>
+      <td>-4.16</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td></td>
+      <td>51.12</td>
+      <td>36.93</td>
+      <td>14.19</td>
+      <td>39.55</td>
+      <td>40.26</td>
+      <td>0.71</td>
+    </tr>
+    <tr>
+      <td>Bolivia</td>
+      <td>³</td>
+      <td>83.94</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>100.00</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Puerto Rico</td>
+      <td>²</td>
+      <td>64.99</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>30.77</td>
+      <td>41.26</td>
+      <td>10.49</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="8"><em>* Ecuador, Costa Rica, Paraguay y El Salvador se mantienen en la derecha mientras México se mantiene de izquierda.</em></td>
+    </tr>
+    <tr>
+      <td colspan="8"><em>¹ Todavía no hay resultados de las elecciones en este ciclo.</em></td>
+    </tr>
+    <tr>
+      <td colspan="8"><em>² Los 2 candidatos más votados son de una misma ideología.</em></td>
+    </tr>
+    <tr>
+      <td colspan="8"><em>³ Las elecciones se decidieron en primera vuelta, la diferencia no es representativa.</em></td>
+    </tr>
+  </tfoot>
+</table>
+```
 
 De la misma manera, podemos mirar  los referendums de Chile y Ecuador para demostrar cómo una porción de los electores que se encuentran en la mayoría tienen poca convicción ideológica. En Ecuador, mientras la derecha ha retenido la presidencia en las últimas dos elecciones con Daniel Noboa, [no logró ganar un referéndum](https://dialogopolitico.org/agenda/analisis/mapa-ideologico-america-latina-2025/) con varias propuestas estructurales en las que basó su campaña. Asimismo, el gobierno izquierdista de Boric en Chile perdió el plebiscito para cambiar la constitución del dictador de derecha Augusto Pinochet con un[ 62% de la población votando en contra](https://www.bcn.cl/portal/noticias?id=historica-participacion-plebiscito-2022). Si la población realmente hubiera cambiado de ideología, ¿pasaría esto? Demuestra que el pendulo politico aplica para solo una porción de los votantes, no es necesario cambiar la posición ideológica de la mayoría del electorado cada 4 o 5 años que hay elecciones, simplemente hay que cambiar los que generan el margen de diferencia -en promedio 8.69% de los votantes- cada elección. En los referendums de Chile y Ecuador, mientras el ciclo electoral no ha concluido, igual demuestran favorecer una ideología opuesta a la que votaron. Evidenciando que no tienen posiciones rígidas, sino que se dejan llevar por las causales previamente mencionadas. Esta salvedad, le da más plausibilidad a la teoría del péndulo político ya que para creer en ella no tienes que probar que toda la población se deja influenciar por la campaña de la oposición, crisis economicas o politicas, o el hecho que el gobierno con una ideología no logró resultados inmediatos. Estas razones sólo tienen que causar que una fracción de los votantes -8.69%- cambie su voto a la ideología opuesta para ser las fuerzas que impulsen el péndulo. 
 
