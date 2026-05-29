@@ -206,10 +206,6 @@ const {
         });
       }
     });
-    const hash = window.location.hash;
-    if (hash.includes('invite_token=') || hash.includes('confirmation_token=') || hash.includes('recovery_token=')) {
-      window.location.href = '/identity/' + hash;
-    }
   }
 
   /* topnav scroll shadow */
