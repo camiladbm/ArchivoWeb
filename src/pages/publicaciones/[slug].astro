@@ -275,7 +275,7 @@ function tagColor(tag: string): string {
   margin: 2.4em 0;
 }
 
-.prose table {
+:global(.prose table) {
   width: 100%;
   max-width: 100%;
   border-collapse: collapse;
@@ -285,7 +285,7 @@ function tagColor(tag: string): string {
   overflow-x: auto;
   display: block;
 }
-.prose table caption {
+:global(.prose table caption) {
   text-align: left;
   font-family: var(--font-display);
   font-weight: 700;
@@ -296,13 +296,13 @@ function tagColor(tag: string): string {
   margin-bottom: 10px;
   caption-side: top;
 }
-.prose th, .prose td {
+:global(.prose th), :global(.prose td) {
   border: 1px solid rgba(51, 31, 18, 0.25);
   padding: 8px 12px;
   text-align: center;
   line-height: 1.4;
 }
-.prose th {
+:global(.prose th) {
   background: var(--archivo-cream-deep);
   font-weight: 700;
   font-size: 0.8rem;
@@ -310,12 +310,12 @@ function tagColor(tag: string): string {
   text-transform: uppercase;
   color: var(--archivo-brown);
 }
-.prose td:first-child {
+:global(.prose td:first-child) {
   text-align: left;
   font-weight: 700;
   color: var(--archivo-brown);
 }
-.prose tfoot td {
+:global(.prose tfoot td) {
   text-align: left;
   font-size: 0.78rem;
   color: var(--archivo-grey-green);
