@@ -3,7 +3,7 @@ titulo: "El Pendulo Politico de America Latina: ¿Qué?, ¿Por qué?, y ¿Qué e
 fechaPublicacion: 2026-05-28
 autor: Isabella Ortega
 universidad: University of Pennsylvania
-imagenPortada: /assets/uploads/di-portada-voto-1-scaled.webp
+imagenPortada: ""
 resumen: El péndulo político latinoamericano describe cómo los países de la
   región tienden a alternar entre gobiernos de izquierda y derecha, impulsados
   principalmente por el descontento electoral ante la falta de resultados. Este
